@@ -5,16 +5,35 @@ import java.util.HashMap;
 public class App {
 
     public static void main(String[] args) throws Exception {
-        //This program assumes that the follong commands was already executed:
-        //terraform plan -out plan_example.bin
-        TFParser parser=new TFParser();
-        String planJson = parser.ToJson("plan_example.json", "show");
-        HashMap<String, Change> hmFindings = parser.GetPlannedChanges(planJson);
-        //Then the folliwong command must be executed: terraform apply plan_example.bin
-        String stateJson = parser.ToJson("terraform.tfstate", "show");
-        parser.PopulateWithIDs(stateJson, hmFindings);        
+        TFParser parser = new TFParser();
+        FileManager objFile = new FileManager();
+
+        String fileProvided = "plan_example.json";
+        if (args.length > 0) {
+            fileProvided = args[0];
+        }
+
+        String summaryFilePath = "summary.json";
+        if (args.length > 1) {
+            summaryFilePath = args[1];
+        }
+
+        try {
+            if (!fileProvided.toLowerCase().endsWith(".tfstate")) {
+                String planJson = parser.ToJson(fileProvided, "show");
+                HashMap<String, Change> hmFindings = parser.GetPlannedChanges(planJson);
+                objFile.Write(hmFindings, summaryFilePath);
+
+            } else {
+                HashMap<String, Change> hmFindings = objFile.Read(summaryFilePath);
+                String stateJson = parser.ToJson(fileProvided, "show");
+                parser.PopulateWithIDs(stateJson, hmFindings);
+                objFile.Write(hmFindings, summaryFilePath);
+            }
+
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage());
+        }
     }
-
-
 
 }

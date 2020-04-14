@@ -30,7 +30,7 @@ public class TFParser {
         JSONArray resources = (JSONArray) ((JSONObject) ((JSONObject) json.get("values")).get("root_module"))
                 .get("resources");
         Iterator outsIt = resources.iterator();
-        
+
         while (outsIt.hasNext()) {
             JSONObject resourceType = (JSONObject) outsIt.next();
             JSONObject resourceAttsArr = (JSONObject) resourceType.get("values");
@@ -85,11 +85,10 @@ public class TFParser {
         }
 
         return sb.toString();
-    }
+    }   
 
     public HashMap<String, Change> GetPlannedChanges(String fileContent) {
         JSONObject json = GetJsonObj(fileContent);
-        String createAction = "create";
         JSONArray changesArr = (JSONArray) json.get("resource_changes");
         HashMap<String, Change> hmFindings = new HashMap<String, Change>();
 
@@ -130,10 +129,7 @@ public class TFParser {
                                 JSONArray actionsArr = (JSONArray) actionTmp.getValue();
                                 for (int m = 0; m < actionsArr.size(); m++) {
                                     String tmpAction = (String) actionsArr.get(m);
-                                    if (tmpAction.compareTo(createAction) == 0) {
-                                        changeEntry.setAction(createAction);
-                                        continue;
-                                    }
+                                    changeEntry.setAction(tmpAction);
                                 }
                             }
                         }
