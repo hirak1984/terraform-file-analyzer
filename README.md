@@ -9,6 +9,7 @@ terraform binary should be in same repo. TF state/plan files should be passed to
 </br>
 </br>
 <b>How To use it?</b>
+</br>
 a. You need to generate a TF plan file first, e.g.:
 </br>
    terraform plan -out plan_example.bin
@@ -25,5 +26,7 @@ d. Then you can complete the analysis by calling again this utility to match the
 </br>
    java -jar terraformfileanalyzer-1.0.0.jar terraform.tfstate summary.json
 </br>
+</br>
 <b>TODO</b>
+</br>
 Not all drift can be fixed by updating a resource, sometimes resources need to be recreated. 
