@@ -9,19 +9,19 @@ terraform binary should be in same repo. TF state/plan files should be passed to
 </br>
 </br>
 <b>How To use it?</b>
-1. You need to generate a TF plan file first, e.g.:
+a. You need to generate a TF plan file first, e.g.:
 </br>
    terraform plan -out plan_example.bin
 </br>
-2. Then you call this utility:
+b. Then you call this utility:
 </br>
    java -jar terraformfileanalyzer-1.0.0.jar plan_example.bin summary.json
 </br>
-3. Then you run TF apply with the given plan file
+c. Then you run TF apply with the given plan file
 </br>
    terraform apply plan_example.bin
 </br>
-4. Then you can complete the analysis by calling again this utility to match the actual IDs with teh planned changes
+d. Then you can complete the analysis by calling again this utility to match the actual IDs with teh planned changes
 </br>
    java -jar terraformfileanalyzer-1.0.0.jar terraform.tfstate summary.json
 </br>
