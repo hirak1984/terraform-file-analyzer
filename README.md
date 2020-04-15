@@ -3,12 +3,12 @@
 It's a CLI to analyze TFstate and plan files to extract the list of actions on resources
 </br>
 </br>
-Pre-Reqs
+<b>Pre-Reqs</b>
 </br>
 terraform binary should be in same repo. TF state/plan files should be passed to this CLI.
 </br>
 </br>
-How To user it?:
+<b>How To use it?</b>
 1. You need to generate a TF plan file first, e.g.:
 </br>
    terraform plan -out plan_example.bin
