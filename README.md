@@ -9,8 +9,8 @@ terraform binary should be in same repo. TF state/plan files should be passed to
 </br>
 </br>
 How To user it?:
-</br>
 1. You need to generate a TF plan file first, e.g.:
+</br>
    terraform plan -out plan_example.bin
 </br>
 2. Then you call this utility:
