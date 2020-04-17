@@ -1,5 +1,6 @@
 package com.terraformfileanalyzer;
 
+import java.io.File;
 import java.util.HashMap;
 
 public class App {
@@ -16,6 +17,15 @@ public class App {
         String summaryFilePath = "summary.json";
         if (args.length > 1) {
             summaryFilePath = args[1];
+        }
+
+        System.out.println("TF File Analyzer");
+        System.out.println("Using source [" + fileProvided + "] and target [" + summaryFilePath + "] ...");
+        File file = new File(fileProvided);           
+        if(!file.exists())
+        {
+            System.out.println("Source [" + fileProvided + "] does not exist.");
+            return;
         }
 
         try {

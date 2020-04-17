@@ -16,7 +16,7 @@ a. You need to generate a TF plan file first, e.g.:
 </br>
 b. Then you call this utility:
 </br>
-   java -jar terraformfileanalyzer-1.0.0.jar plan_example.bin summary.json
+   java -jar terraformfileanalyzer-1.0.3.jar plan_example.bin summary.json
 </br>
 c. Then you run TF apply with the given plan file
 </br>
@@ -24,7 +24,7 @@ c. Then you run TF apply with the given plan file
 </br>
 d. Then you can complete the analysis by calling again this utility to match the actual IDs with teh planned changes
 </br>
-   java -jar terraformfileanalyzer-1.0.0.jar terraform.tfstate summary.json
+   java -jar terraformfileanalyzer-1.0.3.jar terraform.tfstate summary.json
 </br>
 </br>
 <b>TODO</b>
