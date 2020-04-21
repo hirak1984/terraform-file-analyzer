@@ -21,9 +21,8 @@ public class App {
 
         System.out.println("TF File Analyzer");
         System.out.println("Using source [" + fileProvided + "] and target [" + summaryFilePath + "] ...");
-        File file = new File(fileProvided);           
-        if(!file.exists())
-        {
+        File file = new File(fileProvided);
+        if (!file.exists()) {
             System.out.println("Source [" + fileProvided + "] does not exist.");
             return;
         }

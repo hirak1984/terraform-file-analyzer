@@ -10,10 +10,11 @@ public class Change {
 
     }
 
-    public Change(String address, String type, String action) {
+    public Change(String address, String type, String action, String id) {
         this.address = address;
         this.type = type;
         this.action = action;
+        this.id = id;
     }
 
     public String getAddress() {

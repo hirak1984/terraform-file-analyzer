@@ -30,7 +30,7 @@ public class FileManager {
             if (hmChanges.size() == count) {
                 sb.append("}");
             } else {
-                sb.append(",}");
+                sb.append("},");
             }
         }
 

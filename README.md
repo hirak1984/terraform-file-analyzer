@@ -1,6 +1,18 @@
 <b>What's terraform-file-analyzer?</b>
 </br>
-It's a CLI to analyze TFstate and plan files to extract the list of actions on resources
+It's a CLI to analyze TFstate and plan files to extract the list of actions on resources.
+</br>
+Actions can be "create", "no-ops" and "delete".
+</br>
+Examples: 
+</br>
+If you create two EC2 instances your initial summary.json will look like like the below:
+</br>
+{"changes":[{"action":"create","address":"aws_instance.blue","id":"i-0f8629b0d2024429e","type":"aws_instance"},{"action":"create","address":"aws_instance.green","id":"i-098326d9e5dc0328e","type":"aws_instance"}]}
+</br>
+If you delete one of the two EC2 instances your summary.json will look like like the below:
+</br>
+{"changes":[{"action":"delete","address":"aws_instance.blue","id":"i-0f8629b0d2024429e","type":"aws_instance"},{"action":"no-op","address":"aws_instance.green","id":"i-098326d9e5dc0328e","type":"aws_instance"}]}
 </br>
 </br>
 <b>Pre-Reqs</b>

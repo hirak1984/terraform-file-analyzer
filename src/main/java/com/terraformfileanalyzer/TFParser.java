@@ -54,7 +54,7 @@ public class TFParser {
 
     }
 
-    public String ToJson(String fileName, String flag) {
+    public String ToJson(String fileName, String flag) throws IOException {
         Runtime rt = Runtime.getRuntime();
         List<String> arrParams = new ArrayList<String>();
         arrParams.add("terraform");
@@ -64,30 +64,21 @@ public class TFParser {
             arrParams.add(fileName);
         }
 
-        Process proc;
-        try {
-            proc = rt.exec(arrParams.toArray(new String[0]));
-        } catch (IOException e1) {
-            return null;
-        }
-
+        Process proc = rt.exec(arrParams.toArray(new String[0]));
         BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
         StringBuilder sb = new StringBuilder();
         String temp;
-        try {
-            do {
-                temp = stdInput.readLine();
-                if (temp == null)
-                    break;
-                sb.append(temp);
-            } while (true);
-        } catch (IOException e) {
-        }
 
+        do {
+            temp = stdInput.readLine();
+            if (temp == null)
+                break;
+            sb.append(temp);
+        } while (true);
         return sb.toString();
-    }   
+    }
 
-    public HashMap<String, Change> GetPlannedChanges(String fileContent) {
+    public HashMap<String, Change> GetPlannedChanges(String fileContent) throws Exception {
         JSONObject json = GetJsonObj(fileContent);
         JSONArray changesArr = (JSONArray) json.get("resource_changes");
         HashMap<String, Change> hmFindings = new HashMap<String, Change>();
@@ -113,8 +104,8 @@ public class TFParser {
                         String metaDataValue = tmpMetadataObj.getValue().toString();
                         changeEntry.setType(metaDataValue);
                         // We have all info now, ready to store
-                        hmFindings.put(changeEntry.getAddress(),
-                                new Change(changeEntry.getAddress(), changeEntry.getType(), changeEntry.getAction()));
+                        hmFindings.put(changeEntry.getAddress(), new Change(changeEntry.getAddress(),
+                                changeEntry.getType(), changeEntry.getAction(), changeEntry.getId()));
                         changeEntry = null;
                         continue;
                     }
@@ -125,11 +116,21 @@ public class TFParser {
 
                         while (actionIt.hasNext()) {
                             Entry actionTmp = (Entry) actionIt.next();
+
                             if (actionTmp.getKey().toString().compareTo("actions") == 0) {
                                 JSONArray actionsArr = (JSONArray) actionTmp.getValue();
-                                for (int m = 0; m < actionsArr.size(); m++) {
-                                    String tmpAction = (String) actionsArr.get(m);
+                                if (actionsArr.size() == 1) {
+                                    String tmpAction = (String) actionsArr.get(0);
                                     changeEntry.setAction(tmpAction);
+                                } else {
+                                    throw new Exception("Multiple changes (actions) are not supported");
+                                }
+                            } else {
+                                if (actionTmp.getKey().toString().compareTo("before") == 0) {
+                                    JSONObject beforeIdObj = (JSONObject) actionTmp.getValue();
+                                    if (beforeIdObj != null) {
+                                        changeEntry.setId(beforeIdObj.get("id").toString());
+                                    }
                                 }
                             }
                         }
