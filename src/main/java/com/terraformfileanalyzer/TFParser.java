@@ -19,9 +19,12 @@ public class TFParser {
         JSONObject json = null;
         try {
             json = (JSONObject) parser.parse(fileContent);
-        } catch (Exception ex) {
 
+        } catch (Exception e) {
+            System.out.println("[TFParser.TFParser] An error occurred: " + e.getMessage());
+            e.printStackTrace();
         }
+
         return json;
     }
 

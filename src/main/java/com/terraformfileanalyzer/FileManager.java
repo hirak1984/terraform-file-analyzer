@@ -2,7 +2,6 @@ package com.terraformfileanalyzer;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,15 +37,15 @@ public class FileManager {
         sb.append("}");
 
         try {
-            File file = new File(fileName);           
+            File file = new File(fileName);
             file.delete();
 
             FileWriter myWriter = new FileWriter(fileName, false);
             myWriter.write(sb.toString().replace("'", "\""));
             myWriter.close();
 
-        } catch (IOException e) {
-            System.out.println("An error occurred.");
+        } catch (Exception e) {
+            System.out.println("[FileManager.Write] An error occurred: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -62,7 +61,7 @@ public class FileManager {
             }
             myReader.close();
         } catch (Exception e) {
-            System.out.println("An error occurred.");
+            System.out.println("[FileManager.Read] An error occurred: " + e.getMessage());
             e.printStackTrace();
         }
 
@@ -72,7 +71,7 @@ public class FileManager {
         List<Change> list = changeFile.getChanges();
 
         HashMap<String, Change> hmChanges = new HashMap<String, Change>();
-        for (int i = 0; i < list.size(); i++) {            
+        for (int i = 0; i < list.size(); i++) {
             Change newObj = new Change();
             Change curObj = list.get(i);
             newObj.setAction(curObj.getAction());
