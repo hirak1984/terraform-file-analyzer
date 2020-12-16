@@ -1,0 +1,1 @@
+{"changes":[{"action":"create","address":"aws_launch_configuration.as_conf","id":"web_config","type":"aws_launch_configuration"}]}
