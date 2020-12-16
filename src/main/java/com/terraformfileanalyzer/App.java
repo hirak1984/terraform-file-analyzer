@@ -9,7 +9,7 @@ public class App {
         TFParser parser = new TFParser();
         FileManager objFile = new FileManager();
 
-        String fileProvided = "plan_example.json";
+        String fileProvided = "plan_example.bin";
         if (args.length > 0) {
             fileProvided = args[0];
         }
@@ -18,6 +18,11 @@ public class App {
         if (args.length > 1) {
             summaryFilePath = args[1];
         }
+
+        String terraformExecFile = "terraform";
+        if (args.length > 2) {
+            terraformExecFile = args[2];
+        }        
 
         System.out.println("TF File Analyzer");
         System.out.println("Using source [" + fileProvided + "] and target [" + summaryFilePath + "] ...");
@@ -29,13 +34,13 @@ public class App {
 
         try {
             if (!fileProvided.toLowerCase().endsWith(".tfstate")) {
-                String planJson = parser.ToJson(fileProvided, "show");
+                String planJson = parser.ToJson(fileProvided, "show", terraformExecFile);
                 HashMap<String, Change> hmFindings = parser.GetPlannedChanges(planJson);
                 objFile.Write(hmFindings, summaryFilePath);
 
             } else {
                 HashMap<String, Change> hmFindings = objFile.Read(summaryFilePath);
-                String stateJson = parser.ToJson(fileProvided, "show");
+                String stateJson = parser.ToJson(fileProvided, "show", terraformExecFile);
                 parser.PopulateWithIDs(stateJson, hmFindings);
                 objFile.Write(hmFindings, summaryFilePath);
             }

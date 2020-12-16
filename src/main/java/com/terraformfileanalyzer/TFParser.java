@@ -57,18 +57,24 @@ public class TFParser {
 
     }
 
-    public String ToJson(String fileName, String flag) throws IOException {
-        Runtime rt = Runtime.getRuntime();
-        List<String> arrParams = new ArrayList<String>();
-        arrParams.add("terraform");
-        arrParams.add(flag);
-        arrParams.add("-json");
-        if (fileName != null) {
-            arrParams.add(fileName);
-        }
+    //Function to invoke the terraform CLI
+    public String ToJson(String fileName, String flag, String terraformExecFile) throws IOException 
+    {
 
-        Process proc = rt.exec(arrParams.toArray(new String[0]));
+        //TODO: add terraform init when needed 
+        //Process initProc = Runtime.getRuntime().exec(new String[] {terraformExecFile, "init"});
+        //BufferedReader initInput = new BufferedReader(new InputStreamReader(initProc.getInputStream()));
+
+        Process proc = Runtime.getRuntime().exec(new String[] {terraformExecFile, flag, "-json", fileName});
         BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+        
+        BufferedReader error = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
+        String line = null;
+        System.out.println("Error:");
+        while ((line = error.readLine()) != null) {
+            System.out.println(line);
+        }        
+
         StringBuilder sb = new StringBuilder();
         String temp;
 
